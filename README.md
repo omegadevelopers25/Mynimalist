@@ -57,7 +57,7 @@ export default App;
 ```javascript
 import axios from 'axios';
 
-const API_KEY = 'YOUR_YOUTUBE_API_KEY';
+const API_KEY = 'AIzaSyCov9Fdbq1T0LS2z5xUClFYnyTdcnGGMUU';
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
 export const searchVideos = async (query) => {

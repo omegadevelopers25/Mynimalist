@@ -1,0 +1,20 @@
+{
+  "name": "minimalist-youtube-music-app",
+  "version": "1.0.0",
+  "description": "A minimalist music app with YouTube API integration and download capabilities",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "simple": "python -m http.server 8000"
+  },
+  "dependencies": {
+    "ytdl-core": "^4.11.5",
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {},
+  "keywords": ["music", "youtube", "minimalist", "download", "playlist"],
+  "author": "",
+  "license": "MIT"
+}

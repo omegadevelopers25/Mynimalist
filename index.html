@@ -35,6 +35,44 @@
                 </div>
             </section>
 
+            <!-- Currently Playing Card -->
+            <section class="currently-playing-card" id="currentlyPlayingCard" style="display: none;">
+                <div class="card-container">
+                    <div class="card-content">
+                        <div class="card-thumbnail-container">
+                            <img id="cardThumbnail" src="" alt="Currently playing" class="card-thumbnail">
+                            <div class="play-indicator">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                        <div class="card-info">
+                            <h3 id="cardTitle" class="card-title">No track playing</h3>
+                            <p id="cardArtist" class="card-artist">Select a track to play</p>
+                            <div class="card-progress">
+                                <div class="progress-line">
+                                    <div id="cardProgress" class="progress-fill"></div>
+                                </div>
+                                <div class="time-info">
+                                    <span id="cardCurrentTime" class="current-time">0:00</span>
+                                    <span id="cardDuration" class="duration">0:00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button id="cardPlayPause" class="card-play-btn" title="Play/Pause">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button id="cardNext" class="card-control-btn" title="Next">
+                                <i class="fas fa-step-forward"></i>
+                            </button>
+                            <button id="cardLike" class="card-control-btn" title="Like">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Player Section -->
             <section class="player-section" id="playerSection" style="display: none;">
                 <div class="player-container">

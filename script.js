@@ -23,6 +23,18 @@ const playlistsSection = document.getElementById('playlistsSection');
 const playlistsContainer = document.getElementById('playlistsContainer');
 const themeToggle = document.getElementById('themeToggle');
 
+// Currently Playing Card Elements
+const currentlyPlayingCard = document.getElementById('currentlyPlayingCard');
+const cardThumbnail = document.getElementById('cardThumbnail');
+const cardTitle = document.getElementById('cardTitle');
+const cardArtist = document.getElementById('cardArtist');
+const cardProgress = document.getElementById('cardProgress');
+const cardCurrentTime = document.getElementById('cardCurrentTime');
+const cardDuration = document.getElementById('cardDuration');
+const cardPlayPause = document.getElementById('cardPlayPause');
+const cardNext = document.getElementById('cardNext');
+const cardLike = document.getElementById('cardLike');
+
 // Player Elements
 const trackThumbnail = document.getElementById('trackThumbnail');
 const trackTitle = document.getElementById('trackTitle');
@@ -91,6 +103,31 @@ function setupEventListeners() {
     likeBtn.addEventListener('click', toggleLike);
     downloadBtn.addEventListener('click', downloadTrack);
     addToPlaylistBtn.addEventListener('click', showAddToPlaylistModal);
+
+    // Currently Playing Card Controls
+    cardPlayPause.addEventListener('click', togglePlayPause);
+    cardNext.addEventListener('click', playNext);
+    cardLike.addEventListener('click', toggleLike);
+    
+    // Card thumbnail click to show full player
+    cardThumbnail.addEventListener('click', () => {
+        if (currentTrack) {
+            showPlayerSection();
+        }
+    });
+    
+    // Card title/artist click to show full player
+    cardTitle.addEventListener('click', () => {
+        if (currentTrack) {
+            showPlayerSection();
+        }
+    });
+    
+    cardArtist.addEventListener('click', () => {
+        if (currentTrack) {
+            showPlayerSection();
+        }
+    });
 
     // Progress
     progressSlider.addEventListener('input', seekTo);
@@ -199,6 +236,7 @@ function playTrack(id, title, artist, thumbnail) {
     updatePlayerUI();
     loadAndPlayTrack();
     showPlayerSection();
+    showCurrentlyPlayingCard();
 }
 
 function addToQueue(id, title, artist, thumbnail) {
@@ -249,6 +287,9 @@ function togglePlayPause() {
         isPlaying = true;
         playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
     }
+    
+    // Update card play button
+    updateCardPlayButton();
 }
 
 function playPrevious() {
@@ -277,6 +318,11 @@ function handleTrackEnd() {
         audio.play();
     } else {
         playNext();
+    }
+    
+    // If no more tracks, hide the card
+    if (!currentTrack) {
+        hideCurrentlyPlayingCard();
     }
 }
 
@@ -375,6 +421,9 @@ function updateProgress() {
         const progress = (audio.currentTime / audio.duration) * 100;
         progressSlider.value = progress;
         currentTime.textContent = formatTime(audio.currentTime);
+        
+        // Update card progress
+        updateCardProgress();
     }
 }
 
@@ -406,6 +455,58 @@ function updatePlayerUI() {
     progressSlider.value = 0;
     currentTime.textContent = '0:00';
     duration.textContent = '0:00';
+    
+    // Update currently playing card
+    updateCurrentlyPlayingCard();
+}
+
+function updateCurrentlyPlayingCard() {
+    if (!currentTrack) {
+        hideCurrentlyPlayingCard();
+        return;
+    }
+    
+    // Update card content
+    cardThumbnail.src = currentTrack.thumbnail;
+    cardTitle.textContent = currentTrack.title;
+    cardArtist.textContent = currentTrack.artist;
+    
+    // Update like button
+    const isLiked = likedTracks.has(currentTrack.id);
+    cardLike.innerHTML = isLiked ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
+    cardLike.classList.toggle('active', isLiked);
+    
+    // Show the card
+    showCurrentlyPlayingCard();
+}
+
+function showCurrentlyPlayingCard() {
+    currentlyPlayingCard.style.display = 'block';
+    // Add a small delay to ensure smooth animation
+    setTimeout(() => {
+        currentlyPlayingCard.style.opacity = '1';
+    }, 10);
+}
+
+function hideCurrentlyPlayingCard() {
+    currentlyPlayingCard.style.opacity = '0';
+    setTimeout(() => {
+        currentlyPlayingCard.style.display = 'none';
+    }, 300);
+}
+
+function updateCardProgress() {
+    if (!audio.duration) return;
+    
+    const progress = (audio.currentTime / audio.duration) * 100;
+    cardProgress.style.width = `${progress}%`;
+    cardCurrentTime.textContent = formatTime(audio.currentTime);
+    cardDuration.textContent = formatTime(audio.duration);
+}
+
+function updateCardPlayButton() {
+    const icon = isPlaying ? 'fas fa-pause' : 'fas fa-play';
+    cardPlayPause.innerHTML = `<i class="${icon}"></i>`;
 }
 
 function showPlayerSection() {
@@ -555,6 +656,7 @@ function playPlaylist(playlist) {
     updatePlayerUI();
     loadAndPlayTrack();
     showPlayerSection();
+    showCurrentlyPlayingCard();
     showMessage(`Playing playlist: ${playlist.name}`);
 }
 
